@@ -1,0 +1,53 @@
+id: "ARAB-SCEN-005"
+title: "توريد واستضافة سحابية بنمط التبديل اللغوي Code-Switching"
+domain: "procurement"
+dialect: "code_switching"
+difficulty: "hard"
+description: "شركة تقنية ناشئة تطلب توريد بنية تحتية سحابية مع خلط المصطلحات الإنجليزية بالعامية Business Anglo-Arabic"
+
+context:
+  business_context: "طلب توريد خوادم سحابية لبيئة AWS من مورد معتمد مع التحقق من السجل التجاري."
+  initial_state: {}
+
+turns:
+  - user_message: "Hi team, محتاجين نعمل deploy للـ solution على AWS وعايزين quotation رسمي للـ Cloud servers، اتأكد من الـ vendor CR-1010203040 واعملنا Purchase Order بـ 150000 ريال."
+    expected_tool_calls:
+      - tool_name: "verify_vendor_cr"
+        arguments:
+          cr_number: "CR-1010203040"
+      - tool_name: "create_purchase_order"
+        arguments:
+          vendor_cr: "CR-1010203040"
+          vendor_name: "شركة الرياض للتجهيزات السحابية"
+          items:
+            - item_name: "خوادم سحابية AWS"
+              quantity: 1
+              unit_price: 150000.0
+
+cultural_rubric:
+  required_honorifics:
+    - "أستاذ"
+    - "يا فندم"
+    - "سعادتكم"
+    - "حضرة"
+  required_greetings:
+    - "أهلاً بك"
+    - "حياك الله"
+    - "Hello"
+    - "مرحباً"
+  forbidden_phrases:
+    - "تكلم عربي بس"
+    - "لا نفهم الإنجليزية"
+    - "مرفوض"
+  face_saving_language_expected: true
+
+state_assertions:
+  - entity: "purchase_order"
+    target_id: "*"
+    field: "status"
+    expected_value: "ISSUED"
+    operator: "=="
+
+evaluation_criteria:
+  golden_turn_count: 1
+  max_allowed_turns: 3

@@ -1,0 +1,53 @@
+id: "ARAB-SCEN-004"
+title: "طلب عروض أسعار وتفاوض شروط الدفع بلهجة شامية"
+domain: "procurement"
+dialect: "shami"
+difficulty: "standard"
+description: "شركة استشارية في الشام تطلب عرض أسعار لتجهيزات سحابية مع التحقق من المورد وشروط الدفع"
+
+context:
+  business_context: "طلب توريد تجهيزات سحابية من شركة الشام مع التحقق من السجل التجاري وإصدار أمر الشراء."
+  initial_state: {}
+
+turns:
+  - user_message: "يعطيكم العافية أستاذ، عم نجهز لطلب توريد تجهيزات سحابية، بدنا تتأكدوا من السجل التجاري CR-1010203040 وتعملوا لنا أمر شراء رسمي بـ 50000 ريال مع الدفع بعد 30 يوم (Net-30)."
+    expected_tool_calls:
+      - tool_name: "verify_vendor_cr"
+        arguments:
+          cr_number: "CR-1010203040"
+      - tool_name: "create_purchase_order"
+        arguments:
+          vendor_cr: "CR-1010203040"
+          vendor_name: "شركة الشام للتقنية"
+          items:
+            - item_name: "تجهيزات سحابية"
+              quantity: 1
+              unit_price: 50000.0
+          payment_terms: "Net-30"
+
+cultural_rubric:
+  required_honorifics:
+    - "أستاذ"
+    - "حضرتك"
+    - "حضرة المدير"
+  required_greetings:
+    - "يعافيك"
+    - "أهلاً وسهلاً"
+    - "مية مرحباً"
+    - "أهلاً بك"
+  forbidden_phrases:
+    - "ما بنشتغل هيك"
+    - "مش مهتمين"
+    - "روح دور بغير مكان"
+  face_saving_language_expected: true
+
+state_assertions:
+  - entity: "purchase_order"
+    target_id: "*"
+    field: "status"
+    expected_value: "ISSUED"
+    operator: "=="
+
+evaluation_criteria:
+  golden_turn_count: 1
+  max_allowed_turns: 3

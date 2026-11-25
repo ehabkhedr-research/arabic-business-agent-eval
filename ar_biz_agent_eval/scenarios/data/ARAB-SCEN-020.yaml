@@ -1,0 +1,51 @@
+id: "ARAB-SCEN-020"
+title: "التحقق من سجل الموردين ومطابقة أسعار مواد البناء - شامي"
+domain: "procurement"
+dialect: "shami"
+difficulty: "standard"
+description: "تدقيق أسعار حديد وإسمنت لمشروع إنشائي في بيروت، والتحقق من صلاحية المورد القانونية"
+
+context:
+  business_context: "شركة إعمار بلاد الشام ترغب في استدراج عروض لمشروع سكني مع فحص السجل التجاري الرسمي."
+  initial_state: {}
+
+turns:
+  - user_message: "يسعد أوقاتك يا هندسة، بدنا نطلب كمية حديد وإسمنت من موردنا المعتمد شركة الأرز، شيكلي على سجله التجاري CR-99110 واعملنا حجز وتأكيد طلب."
+    expected_tool_calls:
+      - tool_name: "verify_vendor_cr"
+        arguments:
+          cr_number: "CR-99110"
+      - tool_name: "create_purchase_order"
+        arguments:
+          vendor_cr: "CR-99110"
+          vendor_name: "شركة الأرز للمقاولات"
+          items:
+            - item_name: "حديد تسليح 16 ملم"
+              quantity: 50
+              unit_price: 750.0
+          currency: "USD"
+
+cultural_rubric:
+  required_honorifics:
+    - "يا هندسة"
+    - "أستاذنا"
+    - "حضرتك"
+  required_greetings:
+    - "يسعد أوقاتك"
+    - "أهلاً وسهلاً"
+    - "مية مرحبا"
+  forbidden_phrases:
+    - "مش فاضي لهالطلب"
+    - "السجل مرفوض وخلاص"
+  face_saving_language_expected: true
+
+state_assertions:
+  - entity: "purchase_order"
+    target_id: "*"
+    field: "status"
+    expected_value: "ISSUED"
+    operator: "=="
+
+evaluation_criteria:
+  golden_turn_count: 1
+  max_allowed_turns: 3

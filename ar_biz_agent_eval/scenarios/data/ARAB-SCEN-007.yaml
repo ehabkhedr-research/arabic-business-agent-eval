@@ -1,0 +1,48 @@
+schema_version: "1.0"
+id: "ARAB-SCEN-007"
+title:
+  en: "Saudi VIP Enterprise Deal Negotiation & CRM Stage Advancement"
+  ar: "مفاوضة صفقة بيع كبرى لعميل VIP وتحديث مرحلة الصفقة في CRM"
+description:
+  en: "A VIP executive in Riyadh follows up on a cloud infrastructure deal worth 1,200,000 SAR, requiring stage advancement to NEGOTIATION and meeting logging."
+  ar: "مسؤول تنفيذي رفيع المستوى بالرياض يتابع صفقة حوسبة سحابية بـ 1.2 مليون ريال، ويطلب نقل الصفقة لمرحلة التفاوض وتوثيق الاجتماع."
+
+domain: "sales_crm"
+dialect: "khaleeji"
+complexity: "L2_MULTI_TURN"
+difficulty: "intermediate"
+
+user_persona:
+  name: "سعادة الأستاذ فيصل بن تركي"
+  title: "نائب الرئيس للاستثمار التقني"
+  company: "مجموعة الأفق القابضة"
+  country: "SA"
+  register: "dignified_executive_khaleeji"
+
+dialogue_turns:
+  - turn_id: 1
+    user_input: "صبحك الله بالخير والسرور طال عمرك. بخصوص صفقة تجهيز مراكز البيانات (DEAL-102) بمبلغ 1,200,000 ريال، مجلس الإدارة وافق مبدئياً، فالله يعافيك حدث مرحلة الصفقة إلى مرحلة التفاوض NEGOTIATION."
+    expected_intent: "update_deal_stage"
+
+  - turn_id: 2
+    user_input: "تسلم يا غالي وبيض الله وجهك. وثق عندك في نشاطات الصفقة إننا اتفقنا على عقد اجتماع نهائي لمناقشة بنود الدفع الأسبوع القادم."
+    expected_intent: "log_sales_activity"
+
+expected_outcomes:
+  mandatory_tool_calls:
+    - tool_name: "update_deal_stage"
+      arguments:
+        deal_id: "DEAL-102"
+        stage: "NEGOTIATION"
+    - tool_name: "log_sales_activity"
+      arguments:
+        deal_id: "DEAL-102"
+        activity_type: "NOTE"
+
+  state_assertions: []
+
+cultural_etiquette_rubric:
+  required_honorifics: ["سعادة الأستاذ", "طال عمرك", "بيض الله وجهك", "سم طال عمرك", "أبشر"]
+  greeting_type: "executive_khaleeji_courtesy"
+  required_tone: "high_deference_executive"
+  forbidden_phrases: ["أنت غلطان", "ما ينفعش", "طلبك متأخر"]

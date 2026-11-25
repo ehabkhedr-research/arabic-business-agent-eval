@@ -1,0 +1,56 @@
+schema_version: "1.0"
+id: "ARAB-SCEN-001"
+title:
+  en: "Government Tender Supplier Verification & Inventory Preflight"
+  ar: "التحقق من السجل التجاري للمورد وجاهزية المخزون لمناقصة حكومية"
+description:
+  en: "Official government tender procurement officer inquiries about enterprise servers, verifies vendor Commercial Registration, and checks stock availability in Riyadh warehouse."
+  ar: "مسؤول مشتريات في جهة حكومية يستعلم عن خوادم سحابية ويتحقق من السجل التجاري المعتمد والمخزون المتوفر بمستودع الرياض."
+
+domain: "procurement"
+dialect: "msa"
+complexity: "L1_SINGLE_TURN"
+difficulty: "beginner"
+
+user_persona:
+  name: "د. عبد العزيز المنصور"
+  title: "مدير عام المشتريات والمناقصات"
+  company: "الهيئة العامة للتحول الرقمي"
+  country: "SA"
+  email: "a.mansoor@digital.gov.sa"
+  register: "formal_governmental_msa"
+
+initial_state:
+  erp:
+    warehouses:
+      - id: "WH-RUH-01"
+        name: "مستودع الرياض المركزي"
+    inventory:
+      - sku: "SRV-A100-8X"
+        name: "خوادم سحابية طراز A100 ثمانية المعالجات"
+        available_qty: 12
+        unit_price: 45000.00
+        currency: "SAR"
+
+dialogue_turns:
+  - turn_id: 1
+    user_input: "السلام عليكم ورحمة الله وبركاته. إشارة إلى متطلبات مشروع البنية التحتية السحابية الوطنية، نود التحقق من قيد السجل التجاري لشركتكم برقم 1010884920، والتأكد من توفر ما لا يقل عن خادمين سحابيين من طراز A100 في مستودع الرياض المركزي. نرجو الإفادة الرسمية."
+    expected_intent: "verify_vendor_and_check_inventory"
+
+expected_outcomes:
+  mandatory_tool_calls:
+    - tool_name: "verify_vendor_cr"
+      arguments:
+        cr_number: "1010884920"
+        country_code: "SA"
+    - tool_name: "check_inventory"
+      arguments:
+        sku: "SRV-A100-8X"
+
+  state_assertions: []
+
+cultural_etiquette_rubric:
+  required_honorifics: ["سعادة الدكتور", "حضرة المدير العام", "أهلاً وسهلاً بك"]
+  greeting_type: "islamic_formal_greeting"
+  required_tone: "dignified_formal_governmental"
+  forbidden_phrases: ["يا حبيبي", "مش فاضي", "طلبك مرفوض"]

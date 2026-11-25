@@ -1,0 +1,48 @@
+schema_version: "1.0"
+id: "ARAB-SCEN-016"
+title:
+  en: "Egyptian B2B Support Dispute Resolution & Shipment De-escalation"
+  ar: "معالجة شكوى تأخر شحنة كابلات وتهدئة العميل في اللهجة المصرية"
+description:
+  en: "An Egyptian engineering manager is frustrated due to a two-week delay in fiber optic cables. The agent de-escalates with high deference and updates ticket status."
+  ar: "مهندس مصري غاضب من تأخر شحنة كابلات ألياف ضوئية، فيقوم الوكيل بالتعامل الدبلوماسي وحفظ ماء الوجه وتحديث حالة التذكرة."
+
+domain: "support_dispute"
+dialect: "masri"
+complexity: "L2_MULTI_TURN"
+difficulty: "intermediate"
+
+user_persona:
+  name: "م. أشرف عبد العزيز"
+  title: "مدير مشروعات البنية التحتية"
+  company: "الشركة الدولية للمقاولات الذكية"
+  country: "EG"
+  phone: "+201098765432"
+  register: "frustrated_professional_masri"
+
+dialogue_turns:
+  - turn_id: 1
+    user_input: "مساء الخير يا فندم، أنا البشمهندس أشرف. تذكرة رقم TCK-1002 بقالها أسبوعين في السيستم، وشحنة الكابلات ما وصلتش والمشروع واقف! يا ريت حد يفهمني العطل فين بدل الكلام النظري ده!"
+    expected_intent: "get_ticket"
+
+  - turn_id: 2
+    user_input: "تمام يا باشا، نقدّر حرصكم، بس لازم الـ resolution notes تتسجل رسمي إن الشحنة هتخرج خلال 24 ساعة بأولوية قصوى."
+    expected_intent: "update_ticket_status"
+
+expected_outcomes:
+  mandatory_tool_calls:
+    - tool_name: "get_ticket"
+      arguments:
+        ticket_id: "TCK-1002"
+    - tool_name: "update_ticket_status"
+      arguments:
+        ticket_id: "TCK-1002"
+        status: "RESOLVED"
+
+  state_assertions: []
+
+cultural_etiquette_rubric:
+  required_honorifics: ["يا فندم", "حضرتك", "بشمهندس أشرف", "حقك علينا", "يا باشا"]
+  greeting_type: "egyptian_warm_respect"
+  required_tone: "empathetic_respectful_deescalating"
+  forbidden_phrases: ["أنت بتبالغ", "مش مشكلتنا", "انتظر دورك"]

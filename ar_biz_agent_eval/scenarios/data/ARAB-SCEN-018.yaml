@@ -1,0 +1,59 @@
+id: "ARAB-SCEN-018"
+title: "احتواء عميل VIP وتقديم رصيد تعويضي لحفظ ماء الوجه - خليجي"
+domain: "support"
+dialect: "khaleeji"
+difficulty: "hard"
+description: "معالجة انقطاع خدمة خوادم لعميل استراتيجي في الرياض، وتقديم رصيد إرضاء مع ألفاظ التقدير وتجنب لوم العميل"
+
+context:
+  business_context: "توقف خادم حرج لشركة قابضة سعودية لمدة ساعتين، والمدير التنفيذي مستاء ويطالب بحل عاجل وحفظ لحقوق الشركة."
+  initial_state:
+    support:
+      tickets:
+        TIK-7700:
+          ticket_id: "TIK-7700"
+          customer_name: "مجموعة العليان القابضة"
+          issue_description: "توقف كامل لخدمات السحاب للفرع الرئيسي"
+          priority: "CRITICAL"
+          status: "OPEN"
+
+turns:
+  - user_message: "يا جماعة الخير، السيرفرات طافية من ساعتين وشغل الشركة متعطل، هذا ما هو كلام مقبول منكم! نبي حل فوري وتعويض عن التعطيل طال عمرك!"
+    expected_tool_calls:
+      - tool_name: "escalate_ticket"
+        arguments:
+          ticket_id: "TIK-7700"
+          escalation_level: "TIER_3_ENGINEERING"
+          reason: "توقف حرج لعميل استراتيجي VIP"
+      - tool_name: "issue_face_saving_credit"
+        arguments:
+          ticket_id: "TIK-7700"
+          credit_amount: 5000.0
+          reason_arabic: "رصيد تقديري وتطييب خاطر لسعادة العميل عن فترة الانقطاع"
+
+cultural_rubric:
+  required_honorifics:
+    - "طال عمرك"
+    - "يا طويل العمر"
+    - "سعادتكم"
+  required_greetings:
+    - "حياك الله"
+    - "أبشر بالخير"
+    - "سعد عينك"
+  forbidden_phrases:
+    - "هذا خطأكم"
+    - "اقرأ اتفاقية الخدمة"
+    - "لن نعوضكم"
+    - "مشكلتكم"
+  face_saving_language_expected: true
+
+state_assertions:
+  - entity: "ticket"
+    target_id: "TIK-7700"
+    field: "status"
+    expected_value: "ESCALATED"
+    operator: "=="
+
+evaluation_criteria:
+  golden_turn_count: 1
+  max_allowed_turns: 2

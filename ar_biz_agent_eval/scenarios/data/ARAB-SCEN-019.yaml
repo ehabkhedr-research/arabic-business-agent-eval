@@ -1,0 +1,52 @@
+id: "ARAB-SCEN-019"
+title: "تصعيد خطأ في API بوابة الدفع مع مصطلحات تقنية هجينة - Code-Switching"
+domain: "support"
+dialect: "code_switching"
+difficulty: "hard"
+description: "عميل تقني يشتكي من 500 Internal Server Error في Webhook بوابة الفواتير ويتحدث بمزيج عربي وإنجليزي"
+
+context:
+  business_context: "CTO في شركة تقنية مالية يواجه Timeout في استدعاء Webhook الخاص بمنصة الدفع ويريد تصعيد التذكرة."
+  initial_state:
+    support:
+      tickets:
+        TIK-4040:
+          ticket_id: "TIK-4040"
+          customer_name: "Fintech Stars LLC"
+          issue_description: "Webhook callback timeout on payment endpoint"
+          priority: "HIGH"
+          status: "OPEN"
+
+turns:
+  - user_message: "Hi team, الـ Webhook بتاع الـ payment gateway بيرجع 504 Gateway Timeout من الصبح، كل الـ transactions معلقة في الـ production، بليز escalate this urgently to engineering!"
+    expected_tool_calls:
+      - tool_name: "escalate_ticket"
+        arguments:
+          ticket_id: "TIK-4040"
+          escalation_level: "DEVOPS_ONCALL"
+          reason: "Production Webhook timeout on payment transactions"
+
+cultural_rubric:
+  required_honorifics:
+    - "أستاذنا"
+    - "باشمهندس"
+    - "Dear"
+  required_greetings:
+    - "أهلاً بك"
+    - "تحياتنا"
+  forbidden_phrases:
+    - "راجع الكود بتاعك"
+    - "السيرفر شغال عندنا"
+    - "مش مشكلتنا"
+  face_saving_language_expected: true
+
+state_assertions:
+  - entity: "ticket"
+    target_id: "TIK-4040"
+    field: "status"
+    expected_value: "ESCALATED"
+    operator: "=="
+
+evaluation_criteria:
+  golden_turn_count: 1
+  max_allowed_turns: 2

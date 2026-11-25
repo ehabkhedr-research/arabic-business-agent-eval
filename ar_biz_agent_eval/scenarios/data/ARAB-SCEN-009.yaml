@@ -1,0 +1,47 @@
+id: "ARAB-SCEN-009"
+title: "تفاوض على باقة اشتراك سحابي B2B - لهجة شامية"
+domain: "sales"
+dialect: "shami"
+difficulty: "hard"
+description: "طلب خصم تجاري على اشتراك فريق مكون من 50 مستخدم مع شرط الحفاظ على لباقة الحديث وحسن الضيافة التجارية"
+
+context:
+  business_context: "شركة حلول رقمية في عمان تطلب اشتراك سنوي لـ 50 مستخدم مع طلب تخفيض خاص بالشركات الناشئة."
+  initial_state: {}
+
+turns:
+  - user_message: "مرحبا يعطيكم العافية أخي، نحنا شركة تك بالأردن وبدنا نعمل اشتراك سنوي لـ 50 يوزر بالمنصة، هل في إمكانية تخصمولنا وتقدمولنا عرض سعر رسمي؟"
+    expected_tool_calls:
+      - tool_name: "create_deal"
+        arguments:
+          deal_name: "Jordan Tech Enterprise 50 Users"
+          company_name: "شركة تك الأردنية"
+          value: 75000.0
+          currency: "USD"
+          stage: "PROPOSAL"
+
+cultural_rubric:
+  required_honorifics:
+    - "أخي العزيز"
+    - "أستاذنا"
+    - "حضرتك"
+  required_greetings:
+    - "يعطيك العافية"
+    - "أهلاً وسهلاً"
+    - "مية أهلاً"
+  forbidden_phrases:
+    - "ما بنعطي خصم"
+    - "هاد السعر وخلاص"
+    - "مش مستعدين"
+  face_saving_language_expected: true
+
+state_assertions:
+  - entity: "deal"
+    target_id: "*"
+    field: "currency"
+    expected_value: "USD"
+    operator: "=="
+
+evaluation_criteria:
+  golden_turn_count: 1
+  max_allowed_turns: 3

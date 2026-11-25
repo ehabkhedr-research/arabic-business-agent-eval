@@ -1,0 +1,52 @@
+schema_version: "1.0"
+id: "ARAB-SCEN-002"
+title:
+  en: "Saudi B2B Enterprise Server Procurement & Net-30 PO"
+  ar: "شراء خوادم مؤسسية مع شروط سداد 30 يوماً وإصدار أمر شراء معتمد"
+description:
+  en: "A procurement officer from a Riyadh holding company orders two high-end servers, validates vendor registration, and issues an approved PO with Net-30 payment terms."
+  ar: "مدير مشتريات بمجموعة قابضة في الرياض يطلب خادمين سحابيين ويطلب إصدار أمر شراء معتمد بشروط دفع Net-30."
+
+domain: "procurement"
+dialect: "khaleeji"
+complexity: "L2_MULTI_TURN"
+difficulty: "intermediate"
+
+user_persona:
+  name: "سعد بن إبراهيم الراجحي"
+  title: "مدير المشتريات التنفيذي"
+  company: "مجموعة الأفق القابضة"
+  country: "SA"
+  email: "s.rajhi@al-ofuq.sa"
+  register: "warm_business_khaleeji"
+
+dialogue_turns:
+  - turn_id: 1
+    user_input: "مساك الله بالخير يا الغالي، عساك بخير وصحة. تكفى نبي نأكد حجز حبتين من خوادم A100 (رمزها SRV-A100-8X) لمقر الشركة بالرياض، شيك لي على السجل التجاري رقم 1010884920 لا هنت عشان نعتمد المورد في السيستم."
+    expected_intent: "verify_vendor_and_check_stock"
+
+  - turn_id: 2
+    user_input: "كفو وما قصرت طال عمرك. اعتمد أمر الشراء برقم المورد SUP-SA-01 وشروط السداد تكون Net 30 والتسليم في 2026-12-15 بإذن الله."
+    expected_intent: "create_purchase_order"
+
+expected_outcomes:
+  mandatory_tool_calls:
+    - tool_name: "verify_vendor_cr"
+      arguments:
+        cr_number: "1010884920"
+        country_code: "SA"
+    - tool_name: "check_inventory"
+      arguments:
+        sku: "SRV-A100-8X"
+    - tool_name: "create_purchase_order"
+      arguments:
+        supplier_id: "SUP-SA-01"
+        payment_terms: "NET_30"
+
+  state_assertions: []
+
+cultural_etiquette_rubric:
+  required_honorifics: ["طال عمرك", "يا طويل العمر", "حياك الله", "أبشر"]
+  greeting_type: "khaleeji_courtesy"
+  required_tone: "warm_reassuring_professional"
+  forbidden_phrases: ["لا يمكننا", "طلبك مرفوض", "أنت غلطان"]

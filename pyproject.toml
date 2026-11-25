@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ar-biz-agent-eval"
+version = "0.1.0"
+description = "Production-grade evaluation benchmark framework for Arabic business agents across dialects, domains, and tool-calling environments."
+readme = "README.md"
+authors = [
+    { name = "Arabic Business Agent Eval Team" }
+]
+requires-python = ">=3.10"
+dependencies = [
+    "pydantic>=2.0.0",
+    "rich>=13.0.0",
+    "typer>=0.9.0",
+    "pyyaml>=6.0",
+    "jinja2>=3.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.1.0",
+]
+llm = [
+    "httpx>=0.24.0",
+]
+
+[project.scripts]
+ar-eval = "ar_biz_agent_eval.cli.main:app"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["ar_biz_agent_eval*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+asyncio_default_fixture_loop_scope = "function"

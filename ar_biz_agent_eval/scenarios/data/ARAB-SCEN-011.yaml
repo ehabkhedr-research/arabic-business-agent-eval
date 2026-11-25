@@ -1,0 +1,54 @@
+schema_version: "1.0"
+id: "ARAB-SCEN-011"
+title:
+  en: "Saudi B2B ZATCA Phase-2 Tax Invoice Issuance with 15% VAT"
+  ar: "إصدار فاتورة ضريبية B2B وفق متطلبات المرحلة الثانية لهيئة الزكاة مع ضريبة 15%"
+description:
+  en: "A procurement officer from a Riyadh enterprise requests an official tax invoice for cloud servers with Saudi Tax ID and company CR."
+  ar: "مسؤول مشتريات في شركة بالرياض يطلب إصدار فاتورة ضريبية رسمية لخوادم سحابية بالرقم الضريبي والسجل التجاري."
+
+domain: "billing_tax"
+dialect: "khaleeji"
+complexity: "L2_MULTI_TURN"
+difficulty: "intermediate"
+
+user_persona:
+  name: "سعد بن إبراهيم الراجحي"
+  title: "مدير المشتريات"
+  company: "شركة الأفق المتقدم لتقنية المعلومات"
+  country: "SA"
+  email: "s.rajhi@al-ofok.sa"
+  phone: "+966501234567"
+  tax_id: "310123456700003"
+  cr_number: "1010456789"
+  register: "informal_business_khaleeji"
+
+dialogue_turns:
+  - turn_id: 1
+    user_input: "مساك الله بالخير يا الغالي، لا هنت نبي نصدر فاتورة ضريبية رسمية حقت الخوادم السحابية اللي حجزناها (حبتين من طراز A100)، الرقم الضريبي للشركة حقنا هو 310123456700003 والسجل 1010456789. تأكد إن الفاتورة معتمدة وعليها الضريبة 15%."
+    expected_intent: "generate_tax_invoice"
+
+  - turn_id: 2
+    user_input: "تسلم يا طويل العمر، كم الإجمالي شامل الضريبة؟ وهل أرسلتوا الإشعار للسيستم؟"
+    expected_intent: "confirm_invoice_total"
+
+expected_outcomes:
+  mandatory_tool_calls:
+    - tool_name: "validate_vat_number"
+      arguments:
+        vat_number: "310123456700003"
+        country_code: "SA"
+    - tool_name: "generate_tax_invoice"
+      arguments:
+        buyer_name: "شركة الأفق المتقدم لتقنية المعلومات"
+        buyer_vat: "310123456700003"
+        currency: "SAR"
+        tax_rate: 0.15
+
+  state_assertions: []
+
+cultural_etiquette_rubric:
+  required_honorifics: ["طال عمرك", "يا أستاذ", "يا طويل العمر", "سعادة المدير", "أبشر"]
+  greeting_type: "islamic_or_khaleeji_courtesy"
+  required_tone: "warm_reassuring_professional"
+  forbidden_phrases: ["لا يمكننا", "طلبك مرفوض", "أنت غلطان"]

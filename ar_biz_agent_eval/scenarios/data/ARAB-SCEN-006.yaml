@@ -1,0 +1,44 @@
+schema_version: "1.0"
+id: "ARAB-SCEN-006"
+title:
+  en: "Enterprise Inbound Lead Registration & Demo Qualification"
+  ar: "تسجيل وتأهيل عميل مؤسسي جديد وحجز عرض تقديمي"
+description:
+  en: "A regional enterprise inquiries about cloud migration solutions. The agent politely captures contact details, qualifies the lead, and creates a record in the CRM."
+  ar: "شركة إقليمية تستفسر عن حلول التحول السحابي، فيقوم المساعد بالترحيب وتسجيل بيانات العميل وتأهيله في نظام إدارة علاقات العملاء."
+
+domain: "sales_crm"
+dialect: "msa"
+complexity: "L1_SINGLE_TURN"
+difficulty: "beginner"
+
+user_persona:
+  name: "م. خالد بن راشد"
+  title: "المدير التقني"
+  company: "شركة سماء الخليج للتجارة الإلكترونية"
+  country: "SA"
+  email: "k.rashid@sama-gulf.sa"
+  phone: "+966504443322"
+  register: "formal_corporate_msa"
+
+dialogue_turns:
+  - turn_id: 1
+    user_input: "السلام عليكم ورحمة الله وبركاته. نحن في شركة سماء الخليج للتجارة الإلكترونية بالرياض، ونرغب في استكشاف باقات الاستضافة السحابية المؤسسية وحلول الذكاء الاصطناعي. أنا المهندس خالد بن راشد، وبريدي k.rashid@sama-gulf.sa وهاتفي 0504443322. نرجو تسجيل بياناتنا وتحديد موعد لعرض تقني تجريبي."
+    expected_intent: "create_lead"
+
+expected_outcomes:
+  mandatory_tool_calls:
+    - tool_name: "create_lead"
+      arguments:
+        company_name: "شركة سماء الخليج للتجارة الإلكترونية"
+        contact_name: "م. خالد بن راشد"
+        email: "k.rashid@sama-gulf.sa"
+        country: "SA"
+
+  state_assertions: []
+
+cultural_etiquette_rubric:
+  required_honorifics: ["بشمهندس خالد", "حضرة المهندس", "أهلاً وسهلاً بحضرتك", "سعداء بتواصلكم"]
+  greeting_type: "islamic_formal_greeting"
+  required_tone: "warm_corporate_courteous"
+  forbidden_phrases: ["سجل بياناتك بنفسك", "مش اختصاصي"]

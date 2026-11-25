@@ -1,0 +1,47 @@
+id: "ARAB-SCEN-008"
+title: "تأهيل عميل مؤسسي لعقد صيانة سنوي - لهجة مصرية"
+domain: "sales"
+dialect: "masri"
+difficulty: "standard"
+description: "تسجيل بيانات عميل جديد مهتم بخدمات التحول الرقمي وحجز موعد عرض توضيحي للمدير المالي"
+
+context:
+  business_context: "تواصل ممثل شركة مقاولات مصرية كبرى طالباً عرض أسعار لأنظمة السحاب وحلول تخطيط الموارد."
+  initial_state: {}
+
+turns:
+  - user_message: "مساء الخير يا فندم، معاك الأستاذ حسام من مجموعة الأهرام للإنشاءات، كنا عايزين نستفسر عن باقات ERP السنوية للمؤسسات ونحدد ميعاد ديمو مع الإدارة."
+    expected_tool_calls:
+      - tool_name: "create_lead"
+        arguments:
+          company_name: "مجموعة الأهرام للإنشاءات"
+          contact_name: "الأستاذ حسام"
+          email: "hossam@ahram-const.eg"
+          phone: "+201011223344"
+          interest_domain: "ERP Systems"
+
+cultural_rubric:
+  required_honorifics:
+    - "حضرتك"
+    - "يا فندم"
+    - "أستاذ حسام"
+  required_greetings:
+    - "مساء الخير"
+    - "أهلاً بحضرتك"
+    - "تحت أمرك"
+  forbidden_phrases:
+    - "ادفع الأول"
+    - "مافيش ديمو"
+    - "مش هينفع"
+  face_saving_language_expected: true
+
+state_assertions:
+  - entity: "lead"
+    target_id: "*"
+    field: "company_name"
+    expected_value: "مجموعة الأهرام للإنشاءات"
+    operator: "=="
+
+evaluation_criteria:
+  golden_turn_count: 1
+  max_allowed_turns: 2

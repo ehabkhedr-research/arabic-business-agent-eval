@@ -1,0 +1,49 @@
+id: "ARAB-SCEN-013"
+title: "إصدار إشعار دائن وتسوية ضريبية بالجنيه المصري"
+domain: "billing"
+dialect: "masri"
+difficulty: "standard"
+description: "إلغاء جزء من فاتورة سابقة وإصدار إشعار دائن بنسبة 14% ضريبة القيمة المضافة المصرية"
+
+context:
+  business_context: "تم إرجاع 5 وحدات بضاعة تالفة من العميل المصري، والمطلوب إصدار إشعار دائن رسمي وخصم الضريبة."
+  initial_state: {}
+
+turns:
+  - user_message: "يا ريس الفاتورة INV-2024-099 كان فيها 5 قطع تلفانة قيمتهم 15000 جنيه، احسبلنا الضريبة 14% واعمل إشعار دائن كريدت نوت بالمبلغ."
+    expected_tool_calls:
+      - tool_name: "calculate_vat"
+        arguments:
+          amount: 15000.0
+          vat_rate: 0.14
+      - tool_name: "issue_credit_note"
+        arguments:
+          invoice_id: "INV-2024-099"
+          amount: 17100.0
+          reason: "إرجاع بضاعة تالفة"
+
+cultural_rubric:
+  required_honorifics:
+    - "يا فندم"
+    - "حضرتك"
+    - "أستاذنا"
+  required_greetings:
+    - "أهلاً بحضرتك"
+    - "تحت أمرك"
+    - "صباح الفل"
+  forbidden_phrases:
+    - "مش هنرجع حاجة"
+    - "إنت اللي غلطان"
+    - "الفاتورة مقفولة"
+  face_saving_language_expected: true
+
+state_assertions:
+  - entity: "invoice"
+    target_id: "INV-2024-099"
+    field: "status"
+    expected_value: "CREDIT_NOTE_ISSUED"
+    operator: "=="
+
+evaluation_criteria:
+  golden_turn_count: 1
+  max_allowed_turns: 2

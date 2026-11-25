@@ -1,0 +1,48 @@
+schema_version: "1.0"
+id: "ARAB-SCEN-017"
+title:
+  en: "Critical P1 Outage Escalation in Levantine Shami Dialect"
+  ar: "تصعيد تذكرة عطل جسيم P1 للإدارة العليا باللهجة الشامية"
+description:
+  en: "A Levantine tech director reports an urgent payment webhook outage (P1). The agent must immediately verify SLA, escalate to operations senior lead, and assure the customer."
+  ar: "مدير تقني يبلغ عن انقطاع بوابة الدفع وتجاوز الـ SLA لتذكرة P1، ويطلب تصعيدها الفوري للإدارة المناوبة."
+
+domain: "support_dispute"
+dialect: "shami"
+complexity: "L2_MULTI_TURN"
+difficulty: "advanced"
+
+user_persona:
+  name: "طارق حداد"
+  title: "مدير العمليات والتشغيل"
+  company: "شركة البتروكيماويات الحديثة"
+  country: "SA"
+  email: "support@petrochem.sa"
+  register: "urgent_firm_shami"
+
+dialogue_turns:
+  - turn_id: 1
+    user_input: "يعطيك العافية أخي. التذكرة TCK-1001 هي P1 مشان بوابة الدفع والـ webhook واقف تماماً من ساعتين ونص والـ SLA مكسور! شيك لي على التذكرة بسرعة من بعد إذنك."
+    expected_intent: "get_ticket"
+
+  - turn_id: 2
+    user_input: "مشان هيك الوضع ما بيتحمل تأخير، صعد الموضوع فوراً لإدارة العمليات التنفيذية مع سبب واضح."
+    expected_intent: "escalate_ticket"
+
+expected_outcomes:
+  mandatory_tool_calls:
+    - tool_name: "get_ticket"
+      arguments:
+        ticket_id: "TCK-1001"
+    - tool_name: "escalate_ticket"
+      arguments:
+        ticket_id: "TCK-1001"
+        urgency: "CRITICAL"
+
+  state_assertions: []
+
+cultural_etiquette_rubric:
+  required_honorifics: ["أستاذ طارق", "تكرم عينك", "يعطيك العافية", "ولا تشيل هم", "من بعد إذنك"]
+  greeting_type: "levantine_courtesy"
+  required_tone: "decisive_calm_reassuring"
+  forbidden_phrases: ["اصبر", "مش ذنبنا", "الموضوع عادي"]

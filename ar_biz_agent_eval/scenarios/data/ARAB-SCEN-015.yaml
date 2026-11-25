@@ -1,0 +1,49 @@
+id: "ARAB-SCEN-015"
+title: "تحويل عملات وتطبيق ضريبة القيمة المضافة بالتبديل اللغوي (Code-Switching)"
+domain: "billing"
+dialect: "code_switching"
+difficulty: "hard"
+description: "تسوية عقد بالدولار والريال مع احتساب الـ VAT 15% وفحص الرقم الضريبي"
+
+context:
+  business_context: "طلب تسوية مالية لعقد مقوم بالدولار وتحويله للريال السعودي مع التحقق من الرقم الضريبي."
+  initial_state: {}
+
+turns:
+  - user_message: "Hello team, عايزين نعمل convert للـ invoice من USD للـ SAR بمبلغ 10,000 USD ونحسب الـ VAT 15% مع فحص الرقم الضريبي 300000000000003."
+    expected_tool_calls:
+      - tool_name: "get_exchange_rate"
+        arguments:
+          from_currency: "USD"
+          to_currency: "SAR"
+      - tool_name: "validate_vat_number"
+        arguments:
+          vat_number: "300000000000003"
+          country_code: "SA"
+      - tool_name: "calculate_vat"
+        arguments:
+          amount: 37500.0
+          vat_rate: 0.15
+
+cultural_rubric:
+  required_honorifics:
+    - "سعادتكم"
+    - "يا فندم"
+    - "أستاذ"
+    - "حضرة"
+  required_greetings:
+    - "أهلاً بك"
+    - "حياك الله"
+    - "Hello"
+    - "مرحباً"
+  forbidden_phrases:
+    - "لا نحسب العملات"
+    - "احسب بنفسك"
+    - "غير مقبول"
+  face_saving_language_expected: true
+
+state_assertions: []
+
+evaluation_criteria:
+  golden_turn_count: 1
+  max_allowed_turns: 2

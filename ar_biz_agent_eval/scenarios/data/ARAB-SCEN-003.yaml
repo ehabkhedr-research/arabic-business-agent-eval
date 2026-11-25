@@ -1,0 +1,52 @@
+id: "ARAB-SCEN-003"
+title: "توريد معدات مكتبية بالجملة وفحص الموردين في السوق المصري"
+domain: "procurement"
+dialect: "masri"
+difficulty: "standard"
+description: "طلب توريد أجهزة ومستلزمات مكتبية مع التحقق من السجل التجاري وحساب الخصم التجاري بالجنيه المصري"
+
+context:
+  business_context: "شركة استشارات في القاهرة ترغب في شراء 20 شاشة مكتبية من المورد المعتمد مع طلب فحص السجل التجاري وإصدار أمر شراء رسمي."
+  initial_state: {}
+
+turns:
+  - user_message: "صباح الفل يا باشا، عايزين نطلب 20 شاشة ديل 27 بوصة للمكتب الجديد في التجمع من شركة النيل، اتأكد الأول من السجل التجاري بتاعهم CR-77221 واعملنا أمر الشراء."
+    expected_tool_calls:
+      - tool_name: "verify_vendor_cr"
+        arguments:
+          cr_number: "CR-77221"
+      - tool_name: "create_purchase_order"
+        arguments:
+          vendor_cr: "CR-77221"
+          vendor_name: "شركة النيل للتوريدات"
+          items:
+            - item_name: "شاشة ديل 27 بوصة"
+              quantity: 20
+              unit_price: 6500.0
+          currency: "EGP"
+
+cultural_rubric:
+  required_honorifics:
+    - "حضرتك"
+    - "يا فندم"
+    - "باشا"
+  required_greetings:
+    - "صباح الخير"
+    - "أهلاً بحضرتك"
+    - "تحت أمرك"
+  forbidden_phrases:
+    - "مش فاضي"
+    - "مش شغلتي"
+    - "السجل مش شغال"
+  face_saving_language_expected: true
+
+state_assertions:
+  - entity: "purchase_order"
+    target_id: "*"
+    field: "status"
+    expected_value: "ISSUED"
+    operator: "=="
+
+evaluation_criteria:
+  golden_turn_count: 1
+  max_allowed_turns: 3

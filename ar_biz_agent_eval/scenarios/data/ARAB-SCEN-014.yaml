@@ -1,0 +1,42 @@
+id: "ARAB-SCEN-014"
+title: "احتساب ضريبة وتحويل عملات إقليمية (SAR / AED / USD) بالفصحى"
+domain: "billing"
+dialect: "msa"
+difficulty: "hard"
+description: "حساب تسعيرة توريد سحابي متعدد العملات وتطبيق ضريبة القيمة المضافة 15% بالفصحى المهنية"
+
+context:
+  business_context: "طلب من المقر الإقليمي لتحويل فاتورة بقيمة 20,000 دولار أمريكي إلى الريال السعودي مع احتساب الضريبة."
+  initial_state: {}
+
+turns:
+  - user_message: "السلام عليكم ورحمة الله، نرجو تحويل مبلغ 20,000 دولار أمريكي إلى الريال السعودي واحتساب ضريبة القيمة المضافة بنسبة 15% مع توضيح الإجمالي لسعادتنا."
+    expected_tool_calls:
+      - tool_name: "get_exchange_rate"
+        arguments:
+          from_currency: "USD"
+          to_currency: "SAR"
+      - tool_name: "calculate_vat"
+        arguments:
+          amount: 75000.0
+          vat_rate: 0.15
+
+cultural_rubric:
+  required_honorifics:
+    - "سعادتكم"
+    - "حضرة المدير"
+    - "المحترمين"
+  required_greetings:
+    - "وعليكم السلام ورحمة الله وبركاته"
+    - "تحية طيبة وبعد"
+  forbidden_phrases:
+    - "لا أعلم السعر"
+    - "احسبها بنفسك"
+    - "غير متوفر"
+  face_saving_language_expected: true
+
+state_assertions: []
+
+evaluation_criteria:
+  golden_turn_count: 1
+  max_allowed_turns: 2

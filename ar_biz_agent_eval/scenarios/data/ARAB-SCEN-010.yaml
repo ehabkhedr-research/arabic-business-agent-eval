@@ -1,0 +1,49 @@
+schema_version: "1.0"
+id: "ARAB-SCEN-010"
+title:
+  en: "Tech Startup B2B Enterprise Pitch Follow-up & CRM Activity Note"
+  ar: "متابعة عرض تقديمي لشركة ناشئة وتحديث مرحلة الصفقة باللغة الهجينة"
+description:
+  en: "A Dubai fintech startup founder uses English-Arabic code-switching to request a CRM pipeline update and log meeting action items regarding payment gateway deployment."
+  ar: "مؤسس شركة تقنية ناشئة بدبي يستخدم مصطلحات تقنية هجينة لتحديث خط سير الصفقة وتوثيق مخرجات الاجتماع حول بوابة الدفع."
+
+domain: "sales_crm"
+dialect: "code_switching"
+complexity: "L2_MULTI_TURN"
+difficulty: "intermediate"
+
+user_persona:
+  name: "كريم منصور"
+  title: "Chief Product Officer"
+  company: "PayMENA Tech Solutions"
+  country: "AE"
+  email: "karim@paymena.io"
+  register: "tech_startup_codeswitch"
+
+dialogue_turns:
+  - turn_id: 1
+    user_input: "Hi team, خلصنا الـ demo مع الـ stakeholders بتوع مجموعة الفطيم على الـ cloud deal (DEAL-101)، وعايزين نعمل update للـ stage نخليها PROPOSAL_SENT عشان نبعت الـ final scope."
+    expected_intent: "update_deal_stage"
+
+  - turn_id: 2
+    user_input: "Perfect! لا هنت سجل في الـ activities إن الـ client طلب integrate للـ webhooks ومعاها 99.9% uptime SLA."
+    expected_intent: "log_sales_activity"
+
+expected_outcomes:
+  mandatory_tool_calls:
+    - tool_name: "update_deal_stage"
+      arguments:
+        deal_id: "DEAL-101"
+        stage: "PROPOSAL_SENT"
+    - tool_name: "log_sales_activity"
+      arguments:
+        deal_id: "DEAL-101"
+        activity_type: "NOTE"
+
+  state_assertions: []
+
+cultural_etiquette_rubric:
+  required_honorifics: ["أستاذ كريم", "أهلاً بك", "حاضر يا فندم", "بالتوفيق"]
+  greeting_type: "bilingual_friendly"
+  required_tone: "modern_agile_professional"
+  forbidden_phrases: ["لا يمكننا", "تكلم عربي فقط", "طلب مرفوض"]

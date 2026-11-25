@@ -1,0 +1,40 @@
+schema_version: "1.0"
+id: "ARAB-SCEN-012"
+title:
+  en: "Saudi Sadad Bill Payment Status Inquiry & Reconciliation"
+  ar: "الاستعلام عن سداد فاتورة عبر نظام سداد والتسوية المالية"
+description:
+  en: "A business customer inquires about their government utility or telecom bill payment status through the Saudi Sadad payment network."
+  ar: "عميل يستعلم عن حالة سداد فاتورته عبر نظام سداد المعتمد برمز المفوتر ورقم الفاتورة."
+
+domain: "billing_tax"
+dialect: "khaleeji"
+complexity: "L1_SINGLE_TURN"
+difficulty: "beginner"
+
+user_persona:
+  name: "سعود القحطاني"
+  title: "المشرف المالي"
+  company: "مؤسسة النخبة التجارية"
+  country: "SA"
+  register: "business_khaleeji"
+
+dialogue_turns:
+  - turn_id: 1
+    user_input: "السلام عليكم يا طويل العمر، الله يعافيك شيك لي على حالة فاتورة سداد رقم الحساب 987654 مع المفوتر 001، هل تم السداد في النظام؟"
+    expected_intent: "check_sadad_bill"
+
+expected_outcomes:
+  mandatory_tool_calls:
+    - tool_name: "check_sadad_bill"
+      arguments:
+        biller_code: "001"
+        bill_number: "987654"
+
+  state_assertions: []
+
+cultural_etiquette_rubric:
+  required_honorifics: ["يا طويل العمر", "أهلاً بك", "حياك الله", "أبشر"]
+  greeting_type: "islamic_khaleeji"
+  required_tone: "polite_informative"
+  forbidden_phrases: ["ادفع في البنك", "مش عارف"]
